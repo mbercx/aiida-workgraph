@@ -3,12 +3,19 @@ import aiida
 aiida.load_profile()
 
 
-def test_workchain(wt_workchain):
+def test_workchain_run(wt_workchain):
+    """Submit simple calcjob."""
+    wt = wt_workchain
+    wt.name = "test_workchain"
+    wt.run()
+    assert wt.nodes["multiply_add2"].node.outputs.result == 17
+
+
+def test_workchain_submit(wt_workchain):
     """Submit simple calcjob."""
     wt = wt_workchain
     wt.name = "test_workchain"
     wt.submit(wait=True, timeout=100)
-    # print("results: ", results[])
     assert wt.nodes["multiply_add2"].node.outputs.result == 17
 
 

@@ -18,7 +18,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="aiida-worktree",
-    version="0.0.3",
+    version="0.0.4",
     description="Design flexible node-based workflow for AiiDA calculation.",
     long_description=README,
     long_description_content_type="text/markdown",

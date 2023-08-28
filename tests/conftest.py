@@ -88,6 +88,21 @@ def decorated_add():
 
 
 @pytest.fixture
+def decorated_delay_add():
+    """Generate a decorated node for test."""
+
+    @node()
+    @calcfunction
+    def delay_add(x, y, t):
+        import time
+
+        time.sleep(t.value)
+        return x + y
+
+    return delay_add
+
+
+@pytest.fixture
 def decorated_multiply():
     """Generate a decorated node for test."""
 

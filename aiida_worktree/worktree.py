@@ -37,8 +37,7 @@ class WorkTree(scinode.core.nodetree.NodeTree):
         """
         from aiida_worktree.engine.worktree import WorkTree
 
-        ntdata = self.to_dict()
-        all = {"nt": ntdata}
+        all = self.to_submit_dict()
         _result, self.process = aiida.engine.run_get_node(WorkTree, **all)
         self.update()
 
@@ -51,14 +50,20 @@ class WorkTree(scinode.core.nodetree.NodeTree):
             timeout (int, optional): The maximum time in seconds to wait for the process to finish. Defaults to 60.
         """
         from aiida_worktree.engine.worktree import WorkTree
+
+        all = self.to_submit_dict()
+        self.process = aiida.engine.submit(WorkTree, **all)
+        if wait:
+            self.wait(timeout=timeout)
+
+    def to_submit_dict(self):
+        """"""
         from aiida_worktree.utils import merge_properties
 
         ntdata = self.to_dict()
         merge_properties(ntdata)
         all = {"nt": ntdata}
-        self.process = aiida.engine.submit(WorkTree, **all)
-        if wait:
-            self.wait(timeout=timeout)
+        return all
 
     def to_dict(self):
         ntdata = super().to_dict()
